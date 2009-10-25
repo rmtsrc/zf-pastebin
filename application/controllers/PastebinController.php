@@ -19,6 +19,7 @@ class PastebinController extends Zend_Controller_Action
         $paginator = $this->_pastebinObj->getPastebin($this->_getParam('id'));
         $paginator->setCurrentPageNumber($this->_getParam('page'));
         $this->view->paginator = $paginator;
+        $this->view->plain = $this->_getParam('plain');
     }
 
     public function createAction()

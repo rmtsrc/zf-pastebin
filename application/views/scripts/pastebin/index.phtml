@@ -39,13 +39,37 @@ Pastebin Entries: <br />
         <?php endif; ?>
     </dt>
     <dd>
+        <?php echo $this->escape($entry->language) ?> | 
         <?php
-        echo $this->escape($entry->language);
-
-        $geshi = new GeSHi($entry->code, $entry->language);
-        $geshi->enable_line_numbers(GESHI_FANCY_LINE_NUMBERS, 5);
-        //$geshi->set_line_style('background: #FFFBD4;', 'background: #FFFBD4;', true);
-        echo $geshi->parse_code();
+        if (isset($this->plain) && $this->plain) {
+            ?>
+            <a href="<?php echo $this->url(
+            array(
+                'controller' => 'pastebin',
+                'action'     => 'index',
+                'id'         => $entry->short_id,
+            ),
+            'default',
+            true) ?>">highlighted</a>
+            <textarea cols="80" rows="24" class="codeInput"><?php echo $this->escape($entry->code) ?></textarea>
+            <?php
+        } else {
+            ?>
+            <a href="<?php echo $this->url(
+            array(
+                'controller' => 'pastebin',
+                'action'     => 'index',
+                'id'         => $entry->short_id,
+                'plain'      => 'true',
+            ),
+            'default',
+            true) ?>">plain-text</a>
+            <?php
+            $geshi = new GeSHi($entry->code, $entry->language);
+            $geshi->enable_line_numbers(GESHI_FANCY_LINE_NUMBERS, 5);
+            //$geshi->set_line_style('background: #FFFBD4;', 'background: #FFFBD4;', true);
+            echo $geshi->parse_code();
+        }
         ?>
     </dd>
     <?php endforeach ?>
