@@ -1,0 +1,4 @@
+Please extract the Zend Framework and GeSHi here. It should look like:
+  library/Zend
+  library/geshi
+  library/geshi.php
