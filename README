@@ -11,6 +11,8 @@ Requirements:
 Recommended:
 * Apache 2.2.14 or later
 * PHP 5.2.11 (built with sqlite 3.6.19) or later
+* Zend Framework 1.9.4
+* GeSHi - Generic Syntax Highlighter 1.0.8.4
 
 Installation:
 * Extract zf-pastebin
