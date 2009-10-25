@@ -1,0 +1,30 @@
+<?php
+// application/layouts/scripts/layout.phtml
+
+echo $this->doctype() ?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Zend Framework Pastebin Application</title>
+  <?php echo $this->headLink()->appendStylesheet('http://yui.yahooapis.com/3.0.0/build/cssreset/reset-min.css'); ?>
+  <?php echo $this->headLink()->appendStylesheet('http://yui.yahooapis.com/3.0.0/build/cssbase/base-min.css'); ?>
+  <?php echo $this->headLink()->appendStylesheet('http://yui.yahooapis.com/3.0.0/build/cssfonts/fonts-min.css'); ?>
+  <?php echo $this->headLink()->appendStylesheet($this->baseUrl().'/styles/global.css'); ?>
+</head>
+<body>
+<div id="header" style="background-color: #EEEEEE; height: 30px;">
+    <div id="header-logo" style="float: left">
+        <b>Pastebin Application</b>
+    </div>
+    <div id="header-navigation" style="float: right">
+        <a href="<?php echo $this->url(
+            array('controller'=>'pastebin'),
+            'default',
+            true) ?>">Pastebin</a>
+    </div>
+</div>
+
+<?php echo $this->layout()->content ?>
+
+</body>
+</html>

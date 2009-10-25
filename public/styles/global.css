@@ -1,0 +1,20 @@
+body {
+    padding:5px 10px;
+}
+
+pre,
+.codeInput {
+    border:1px dashed #000;
+    padding-left:25px;
+    background-color:#FFF8E0;
+}
+
+.codeInput {
+    width:100%;
+    padding:0;
+    border-style:solid;
+}
+
+.disabled {
+    color:gray;
+}

@@ -1,0 +1,57 @@
+<!-- application/views/scripts/guestbook/index.phtml -->
+
+<?php
+    // Load up
+    require_once 'geshi.php';
+?>
+
+<p><a href="<?php echo $this->url(
+    array(
+        'controller' => 'pastebin',
+        'action'     => 'create'
+    ),
+    'default',
+    true) ?>">New Paste</a></p>
+
+Pastebin Entries: <br />
+<?php if (count($this->paginator)): ?>
+<dl>
+    <?php foreach ($this->paginator as $entry): ?>
+    <dt>
+        <a href="<?php echo $this->url(
+        array(
+            'controller' => 'pastebin',
+            'action'     => 'index',
+            'id'         => $entry->short_id,
+        ),
+        'default',
+        true) ?>" title="Permalink"><?php echo $this->escape($entry->name) ?></a> (<acronym title="<?php echo (!empty($entry->expires)) ? 'Expires: '.$this->escape($entry->expires) : 'Does not expire' ?>"><?php echo $this->escape($entry->created) ?></acronym>)
+
+        <?php if ($this->config->site->allowAnonymousDelete): ?>
+        <a href="<?php echo $this->url(
+        array(
+            'controller' => 'pastebin',
+            'action'     => 'delete',
+            'id'         => $entry->short_id,
+        ),
+        'default',
+        true) ?>" onclick="return confirm('Are you sure you want to delete this?');"><img src="<?php echo $this->baseUrl() ?>/images/user-trash-full.png" alt="Delete" title="Delete"></a>
+        <?php endif; ?>
+    </dt>
+    <dd>
+        <?php
+        echo $this->escape($entry->language);
+
+        $geshi = new GeSHi($entry->code, $entry->language);
+        $geshi->enable_line_numbers(GESHI_FANCY_LINE_NUMBERS, 5);
+        //$geshi->set_line_style('background: #FFFBD4;', 'background: #FFFBD4;', true);
+        echo $geshi->parse_code();
+        ?>
+    </dd>
+    <?php endforeach ?>
+</dl>
+<?php endif; ?>
+
+<?php echo $this->paginationControl($this->paginator,
+                                    'Sliding',
+                                    'pagination_control.phtml'); ?>
