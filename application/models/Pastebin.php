@@ -106,7 +106,7 @@ class Default_Model_Pastebin
 
     public function setShortId($shortId)
     {
-        $this->_shortId = (int) $shortId;
+        $this->_shortId = $shortId;
         return $this;
     }
 
@@ -148,6 +148,12 @@ class Default_Model_Pastebin
     public function find($id)
     {
         $this->getMapper()->find($id, $this);
+        return $this;
+    }
+
+    public function findShortId($shortId)
+    {
+        $this->getMapper()->findShortId($shortId, $this);
         return $this;
     }
 

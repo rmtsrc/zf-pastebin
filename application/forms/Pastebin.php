@@ -3,15 +3,35 @@
 
 class Default_Form_Pastebin extends Zend_Form
 {
+    protected $_defaultValues;
+
+    public function  __construct($defaultValues = null)
+    {
+        $this->_defaultValues = $defaultValues;
+        parent::__construct();
+    }
+
     public function init()
     {
         // Set the method for the display form to POST
         $this->setMethod('post');
 
+        // Add an id element
+        if (is_object($this->_defaultValues)) {
+            $this->addElement('hidden', 'id', array(
+                'value'     => $this->_defaultValues->id,
+            ));
+
+            $this->addElement('hidden', 'shortId', array(
+                'value'     => $this->_defaultValues->shortId,
+            ));
+        }
+
         // Add an name element
         $this->addElement('text', 'name', array(
             'label'      => 'Your name:',
             'filters'    => array('StringTrim'),
+            'value'     => (is_object($this->_defaultValues)) ? $this->_defaultValues->name : '',
         ));
 
         // Get list of languages
@@ -30,7 +50,7 @@ class Default_Form_Pastebin extends Zend_Form
         $languageSelect->setLabel('Language:')
             ->setRequired(true)
             ->addMultiOptions($languages)
-            ->setValue('php');
+            ->setValue((is_object($this->_defaultValues)) ? $this->_defaultValues->language : 'php');
 
         $this->addElement($languageSelect);
 
@@ -39,6 +59,7 @@ class Default_Form_Pastebin extends Zend_Form
             'label'      => 'Code:',
             'required'   => true,
             'class'     => 'codeInput',
+            'value'     => (is_object($this->_defaultValues)) ? $this->_defaultValues->code : '',
             //'validators' => array(
             //    array('validator' => 'StringLength', 'options' => array(0, 20))
             //    )

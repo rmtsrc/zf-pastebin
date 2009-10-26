@@ -24,9 +24,25 @@ class PastebinController extends Zend_Controller_Action
 
     public function createAction()
     {
+        $this->_forward('form');
+    }
+
+    public function editAction()
+    {
+        $this->_forward('form');
+    }
+
+    public function formAction()
+    {
         // action body
+        $defaultFormData = null;
+        $shortId = $this->_getParam('id');
+        if (!empty($shortId) && $this->_config->site->allowAnonymousEdit) {
+            $defaultFormData = $this->_pastebinObj->findShortId($shortId);
+        }
+
         $request = $this->getRequest();
-        $form    = new Default_Form_Pastebin();
+        $form    = new Default_Form_Pastebin($defaultFormData);
 
         if ($this->getRequest()->isPost()) {
             if ($form->isValid($request->getPost())) {
@@ -37,7 +53,6 @@ class PastebinController extends Zend_Controller_Action
         }
 
         $this->view->form = $form;
-
     }
 
     public function deleteAction() {

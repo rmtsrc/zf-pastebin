@@ -27,8 +27,11 @@ class Default_Model_PastebinMapper
 
     public function save(Default_Model_Pastebin $pastebin)
     {
-        $shortId = $this->_getShortId();
-        $pastebin->setShortId($shortId);
+        $shortId = $pastebin->getShortId();
+        if (empty($shortId)) {
+            $shortId = $this->_getShortId();
+            $pastebin->setShortId($shortId);
+        }
         $name = $pastebin->getName();
 
         $expiresTime = $pastebin->getExpires();
@@ -92,6 +95,19 @@ class Default_Model_PastebinMapper
             return;
         }
         $row = $result->current();
+        $this->_setObject($row, $pastebin);
+    }
+
+    public function findShortId($shortId, Default_Model_Pastebin $pastebin)
+    {
+        $row = $this->getDbTable()->findShortId($shortId);
+        if (!empty($row)) {
+            $this->_setObject($row, $pastebin);
+        }
+    }
+
+    private function _setObject($row, Default_Model_Pastebin $pastebin)
+    {
         $pastebin->setId($row->id)
                   ->setShortId($row->short_id)
                   ->setName($row->name)
@@ -134,6 +150,7 @@ class Default_Model_PastebinMapper
 
         if (!is_null($id)) {
             $select->where('short_id = ?', $id);
+            $select->limit(1);
         }
         $select->where('(expires IS NULL) OR (expires > ?)', date('Y-m-d H:i:s'));
 
