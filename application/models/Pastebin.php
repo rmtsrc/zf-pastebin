@@ -6,6 +6,7 @@ class Default_Model_Pastebin
     protected $_code;
     protected $_language;
     protected $_created;
+    protected $_ipAddress;
     protected $_expires;
     protected $_name;
     protected $_shortId;
@@ -91,6 +92,17 @@ class Default_Model_Pastebin
     public function getCreated()
     {
         return $this->_created;
+    }
+
+    public function setIpAddress($ip)
+    {
+        $this->_ipAddress = $ip;
+        return $this;
+    }
+
+    public function getIpAddress()
+    {
+        return $this->_ipAddress;
     }
 
     public function setExpires($ts)

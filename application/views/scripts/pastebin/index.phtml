@@ -27,7 +27,7 @@ Pastebin Entries: <br />
         'default',
         true) ?>" title="Permalink"><?php echo $this->escape($entry->name) ?></a> (<acronym title="<?php echo (!empty($entry->expires)) ? 'Expires: '.$this->escape($entry->expires) : 'Does not expire' ?>"><?php echo $this->escape($entry->created) ?></acronym>)
 
-        <?php if ($this->config->site->allowAnonymousEdit): ?>
+        <?php if ($this->config->site->allow->anonymousEdit || ($this->config->site->allow->ownEdit && ($entry->ip_address == $_SERVER['REMOTE_ADDR']))): ?>
         <a href="<?php echo $this->url(
         array(
             'controller' => 'pastebin',
@@ -38,7 +38,7 @@ Pastebin Entries: <br />
         true) ?>"><img src="<?php echo $this->baseUrl() ?>/images/accessories-text-editor.png" alt="Edit" title="Edit"></a>
         <?php endif; ?>
 
-        <?php if ($this->config->site->allowAnonymousDelete): ?>
+        <?php if ($this->config->site->allow->anonymousDelete || ($this->config->site->allow->ownDelete && ($entry->ip_address == $_SERVER['REMOTE_ADDR']))): ?>
         <a href="<?php echo $this->url(
         array(
             'controller' => 'pastebin',

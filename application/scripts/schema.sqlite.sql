@@ -9,6 +9,7 @@ CREATE TABLE pastebin (
     code TEXT NULL,
     language VARCHAR(32) NOT NULL DEFAULT 'php',
     expires DATETIME NULL DEFAULT NULL,
+    ip_address VARCHAR(32) NOT NULL,
     created DATETIME NOT NULL
 );
 

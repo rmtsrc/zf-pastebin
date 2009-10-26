@@ -51,6 +51,7 @@ class Default_Model_PastebinMapper
             'code' => $pastebin->getCode(),
             'language' => $pastebin->getLanguage(),
             'expires'   => $expires,
+            'ip_address'   => $_SERVER['REMOTE_ADDR'],
             'created' => date('Y-m-d H:i:s'),
         );
 
@@ -111,8 +112,9 @@ class Default_Model_PastebinMapper
         $pastebin->setId($row->id)
                   ->setShortId($row->short_id)
                   ->setName($row->name)
-                  ->setCode($row->code)
                   ->setLanguage($row->language)
+                  ->setCode($row->code)
+                  ->setIpAddress($row->ip_address)
                   ->setCreated($row->created);
     }
 
@@ -125,8 +127,9 @@ class Default_Model_PastebinMapper
             $entry->setId($row->id)
                   ->setShortId($row->short_id)
                   ->setName($row->name)
-                  ->setCode($row->code)
                   ->setLanguage($row->language)
+                  ->setCode($row->code)
+                  ->setIpAddress($row->ip_address)
                   ->setCreated($row->created)
                   ->setMapper($this);
             $entries[] = $entry;

@@ -37,7 +37,13 @@ class PastebinController extends Zend_Controller_Action
         // action body
         $defaultFormData = null;
         $shortId = $this->_getParam('id');
-        if (!empty($shortId) && $this->_config->site->allowAnonymousEdit) {
+        if (!empty($shortId) && ($this->_config->site->allow->anonymousEdit || $this->_config->site->allow->ownEdit)) {
+            if ($this->_config->site->allow->ownEdit && !$this->_config->site->allow->anonymousEdit) {
+                $row = $this->_pastebinObj->findShortId($shortId);
+                if ($row->ipAddress != $_SERVER['REMOTE_ADDR']) {
+                    throw new Exception('You do not have permission to edit this');
+                }
+            }
             $defaultFormData = $this->_pastebinObj->findShortId($shortId);
         }
 
@@ -56,10 +62,12 @@ class PastebinController extends Zend_Controller_Action
     }
 
     public function deleteAction() {
-        if ($this->_config->site->allowAnonymousDelete) {
-            $this->_pastebinObj->delete($this->_getParam('id'), 'short_id');
+        $deleteId = $this->_getParam('id');
+        $row = $this->_pastebinObj->findShortId($deleteId);
+        if ($this->_config->site->allow->anonymousDelete || ($this->_config->site->allow->ownDelete && ($row->ipAddress == $_SERVER['REMOTE_ADDR']))) {
+            $this->_pastebinObj->delete($deleteId, 'short_id');
         } else {
-            throw new Exception('You do not have permission to delete');
+            throw new Exception('You do not have permission to delete this');
         }
 
         $this->_redirect('/');
