@@ -4,7 +4,7 @@
  *
  * @author Seb Flippence
  * @see http://seb.flippence.net
- * @version v0.1
+ * @version v0.5
  * @license GNU General Public License - 2009
  */
 
