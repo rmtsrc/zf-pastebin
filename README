@@ -6,11 +6,12 @@ GNU General Public License - 2009
 zf-pastebin is a PHP pastebin which uses the Zend Framework (http://framework.zend.com) and the GeSHi - Generic Syntax Highlighter (http://qbnz.com/highlighter/)
 
 Requirements:
-* PHP 5.2.4 (built with sqlite) or later
+* PHP 5.2.4 or later (built with sqlite or MySQL adaptors)
 
 Recommended:
 * Apache 2.2.14 or later
-* PHP 5.2.11 (built with sqlite 3.6.19) or later
+* PHP 5.2.11 or later (built with sqlite 3.6.19 or MySQL 5.1.40 adaptors)
+* MySQL 5.1.40
 * Zend Framework 1.9.4
 * GeSHi - Generic Syntax Highlighter 1.0.8.4
 
@@ -24,8 +25,15 @@ Installation:
 * Make sure that the application/data folder is writeable by the web server
 * Browse to the zf-pastebin/public folder (tip: with the Zend Framework all other folders except for the public folder should be placed outside of your public web folder e.g. public_html/httpdocs changing the path within the public/index.php to match its private location)
 
-Resetting the sqlite database:
+Resetting the sqlite/MySQL database:
 $ cd application
 $ rm -Rf data/
 $ mkdir -p data/db; chmod -R a+rwX data
-$ php scripts/load.sqlite.php --withdata #Remove --withdata if you do not need the test data
+$ php scripts/load.database.php --withdata # Remove --withdata if you do not need the test data
+
+Using MySQL instead of sqlite
+* Open application/configs/application.ini
+* Comment out the two sqlite lines
+* Uncomment the MySQL details (and adjust to match your MySQL database server)
+* Run the setup script on the command line e.g.:
+$ php scripts/load.database.php --withdata
