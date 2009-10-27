@@ -15,8 +15,26 @@ class PastebinController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        // action body     
-        $paginator = $this->_pastebinObj->getPastebin($this->_getParam('id'));
+        // search form
+        $request = $this->getRequest();
+        $form    = new Default_Form_PastebinSearch($request);
+
+        $search = array();
+        if ($this->getRequest()->isPost()) {
+            if ($form->isValid($request->getPost())) {
+                if ($this->_getParam('reset')) {
+                     $this->_redirect('/');
+                }
+
+                $formValues = $form->getValues();
+                $search[$formValues['searchOn']] = $formValues['search'];
+            }
+        }
+
+        $this->view->form = $form;
+
+        // action body
+        $paginator = $this->_pastebinObj->getPastebin($this->_getParam('id'), $search);
         $paginator->setCurrentPageNumber($this->_getParam('page'));
         $this->view->paginator = $paginator;
         $this->view->plain = $this->_getParam('plain');

@@ -18,3 +18,20 @@ pre,
 .disabled {
     color:gray;
 }
+
+#search {
+    float:right;
+}
+
+#search .zend_form dt,
+#search .zend_form dd {
+    float:left;
+}
+
+#search .zend_form dt label {
+    padding-left:10px;
+}
+
+#code {
+    clear:left;
+}

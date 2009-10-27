@@ -144,7 +144,7 @@ class Default_Model_PastebinMapper
         return $this->getDbTable()->delete($where);
     }
 
-    public function getPastebin($id = null)
+    public function getPastebin($id = null, $where = array())
     {
         $db = $this->getDbTable();
         $dbInfo = $db->info();
@@ -154,6 +154,11 @@ class Default_Model_PastebinMapper
         if (!is_null($id)) {
             $select->where('short_id = ?', $id);
             $select->limit(1);
+        }
+        if (!is_null($where) && is_array($where) && !empty($where)) {
+            foreach ($where as $col => $value) {
+                $select->where($col.' LIKE ?', '%'.$value.'%');
+            }
         }
         $select->where('(expires IS NULL) OR (expires > ?)', date('Y-m-d H:i:s'));
 

@@ -1,10 +1,16 @@
 <!-- application/views/scripts/guestbook/index.phtml -->
 
+<div id="search">
 <?php
+    $this->form->setAction($this->url());
+    echo $this->form;
+
     // Load up
     require_once 'geshi.php';
 ?>
+</div>
 
+<div id="code">
 <p><a href="<?php echo $this->url(
     array(
         'controller' => 'pastebin',
@@ -86,6 +92,7 @@ Pastebin Entries: <br />
     <?php endforeach ?>
 </dl>
 <?php endif; ?>
+</div>
 
 <?php echo $this->paginationControl($this->paginator,
                                     'Sliding',

@@ -179,8 +179,8 @@ class Default_Model_Pastebin
         return $this->getMapper()->delete($id, $column);
     }
 
-    public function getPastebin($id = null) {
-        return $this->getMapper()->getPastebin($id);
+    public function getPastebin($id = null, $where = null) {
+        return $this->getMapper()->getPastebin($id, $where);
     }
 
 }
